@@ -4,8 +4,11 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import java.util.Base64;
 import java.util.Scanner;
 import java.security.SecureRandom;
+
 
 public class Simetrico {
     public static void main(String[] args) throws Exception {
@@ -47,7 +50,8 @@ public class Simetrico {
 
     	// Cifrar el texto
     	byte[] encryptedText = encryptSymmetric(secretKeyBytes, plainText.getBytes());
-    	System.out.println("Texto cifrado: " + byteArrayToHexString(encryptedText));
+    	String textoCifrado = Base64.getEncoder().encodeToString(encryptedText);
+    	System.out.println("Texto cifrado: " + textoCifrado);
 
     	// Descifrar el texto
     	byte[] decryptedText = decryptSymmetric(secretKeyBytes, encryptedText);
@@ -76,23 +80,5 @@ public class Simetrico {
     	return decryptCipher.doFinal(encryptedText);
     	}
 
-    	public static byte[] hexStringToByteArray(String hexString) {
-    	int length = hexString.length();
-    	byte[] data = new byte[length / 2];
-
-    	for (int i = 0; i < length; i += 2) {
-    	    String byteInHex = hexString.substring(i, i + 2); // Toma dos caracteres a la vez
-    	    data[i / 2] = (byte) Integer.parseInt(byteInHex, 16); // Convierte a byte en base 16
-    	}
-
-    	return data;
-    	}
-
-    	public static String byteArrayToHexString(byte[] bytes) {
-    	StringBuilder result = new StringBuilder();
-    	for (byte b : bytes) {
-    	    result.append(String.format("%02X", b));
-    	}
-    	return result.toString();
-    	}
+    	
 }
